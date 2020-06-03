@@ -1,6 +1,6 @@
 name: social_media_widgets
 description: A new flutter package for collection of common popular social media widgets like instagram story swipe and snapchat screen dismiss
-version: 1.0.0
+version: 1.0.0+1
 homepage: https://github.com/GursheeshSingh/social_media_widgets
 
 environment:
