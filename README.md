@@ -20,9 +20,7 @@ A new flutter package for collection of common popular social media widgets
 
 Here we are navigating to another screen and applying the snapchat screen dismiss
 
-<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot1.gif"/>
-
-![Basic snapchat screen dismiss](/screenshots/screenshot1.gif)
+![](https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot1.gif)
 
 ## Adding basic Snapchat screen dismiss with previous screen as background
 
