@@ -7,6 +7,8 @@ A new flutter package for collection of common popular social media widgets
 * Snapchat screen dismiss - By swiping down
 * Instagram story swipe
 
+## **NOTE:** Check github for screenshots
+
 ## Adding basic Snapchat screen dismiss
 
     Navigator.push(

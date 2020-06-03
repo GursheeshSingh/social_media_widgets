@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## 1.0.0 - 3 June 2020
 
-* TODO: Describe initial release.
+* Snapchat screen dismiss
+* Instagram story swipe
