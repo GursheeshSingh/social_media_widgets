@@ -22,6 +22,8 @@ A new flutter package for collection of common popular social media widgets
 
 Here we are navigating to another screen and applying the snapchat screen dismiss
 
+<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot1.gif"/>
+
 ![Basic snapchat screen dismiss](/screenshots/screenshot1.gif)
 
 ## Adding basic Snapchat screen dismiss with previous screen as background
@@ -37,7 +39,7 @@ Here we are navigating to another screen and applying the snapchat screen dismis
 
 Here we are navigating to another screen and applying the snapchat screen dismiss and with the previous screen as background when we dismiss
 
-![Snapchat screen dismiss with previous screen as background](/screenshots/screenshot2.gif)
+<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot2.gif"/>
 
 ## Adding basic Snapchat screen dismiss with increased dismiss height
 
@@ -54,7 +56,7 @@ Here we are navigating to another screen and applying the snapchat screen dismis
 
 Here we are navigating to another screen and applying the snapchat screen dismiss and this will require more drag than default to dismiss screen
 
-![Snapchat screen dismiss with increased dismiss height](/screenshots/screenshot3.gif)
+<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot3.gif"/>
 
 ## Basic Instagram Story Swipe
 
@@ -71,7 +73,7 @@ Here we are navigating to another screen and applying the snapchat screen dismis
       ),
     );
 
-![Basic Instagram story swipe](/screenshots/screenshot4.gif)
+<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot4.gif"/>
 
 ## Instagram Story Swipe with initial page specified
 
@@ -89,7 +91,7 @@ Here we are navigating to another screen and applying the snapchat screen dismis
       ),
     );
 
-![Basic Instagram story swipe with custom initial page](/screenshots/screenshot5.gif)
+<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot5.gif"/>
 
 
 ## Instagram Story Swipe and snapchat dismiss combined
@@ -110,7 +112,7 @@ Here we are navigating to another screen and applying the snapchat screen dismis
       ),
     );
 
-![Instagram Story Swipe and snapchat dismiss combined](/screenshots/screenshot6.gif)
+<img src="https://github.com/GursheeshSingh/social_media_widgets/blob/master/screenshots/screenshot6.gif"/>
 
 
 
