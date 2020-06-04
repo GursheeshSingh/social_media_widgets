@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       PageRouteBuilder(
         opaque: false,
         pageBuilder: (_, __, ___) => SnapchatDismiss(
-          dismissHeight: 250,
+          dismissHeight: 400,
           child: Screen('Screen', Colors.redAccent),
         ),
       ),

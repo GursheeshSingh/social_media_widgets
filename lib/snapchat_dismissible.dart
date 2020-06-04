@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+//TODO: Make additional radius compatible of screen size
+//TODO: Add option to only close screen when drag ends
+//TODO: If last drag action increased height, then goes back
+//TODO: If last drag action decreased height, close screen
 class SnapchatDismiss extends StatefulWidget {
   final Widget child;
   final double dismissHeight;
@@ -31,36 +35,55 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
     _animation = Tween().animate(_animationController);
   }
 
+  double circleOffset = 0.0;
+  bool canMoveCircle = false;
+  double horizontalDrag = 0.0;
+
   @override
   Widget build(BuildContext context) {
-    var screenSize = MediaQuery.of(context).size;
+    Size screenSize = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onVerticalDragStart: (details) {
+      onPanStart: (details) {
         isDragging = true;
         startPosition = details.globalPosition.dy;
-        setState(() {});
       },
-      onVerticalDragUpdate: (details) {
-        dragHeight = details.globalPosition.dy - startPosition;
-        setState(() {});
-        if (dragHeight > widget.dismissHeight && isCompleted == false) {
-          isCompleted = true;
+      onPanUpdate: (details) {
+        if (details.delta.dy != 0) {
+          dragHeight = details.globalPosition.dy - startPosition;
+          setState(() {});
+          if (dragHeight > widget.dismissHeight && isCompleted == false) {
+            isCompleted = true;
 
-          double end = screenSize.height / 2 + widget.additionalRadius / 2 - 25;
-          _animation = Tween(begin: widget.dismissHeight, end: end)
-              .animate(_animationController);
-          _animationController.forward();
+            double end =
+                screenSize.height / 2 + widget.additionalRadius / 2 - 25;
+            _animation = Tween(begin: widget.dismissHeight, end: end)
+                .animate(_animationController);
+            _animationController.forward();
 
-          _animationController.addListener(() {
-            if (_animationController.isCompleted) {
-              Navigator.pop(context);
+            _animationController.addListener(() {
+              if (_animationController.isCompleted) {
+                Navigator.pop(context);
+              }
+            });
+          }
+        }
+
+        if (details.delta.dx != 0) {
+          if (canMoveCircle) {
+            circleOffset = circleOffset + details.delta.dx;
+            setState(() {});
+          } else {
+            if (circleOffset != 0) {
+              circleOffset = 0.0;
+              setState(() {});
             }
-          });
+          }
         }
       },
-      onVerticalDragEnd: (details) {
+      onPanEnd: (details) {
         if (isCompleted == false) {
+          circleOffset = 0.0;
           isDragging = false;
           dragHeight = null;
           setState(() {});
@@ -69,14 +92,24 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
       child: AnimatedBuilder(
         animation: _animation,
         builder: (context, child) {
-          return ClipOval(
-            clipper: _MyCircleClipper(
-              screenSize,
-              isCompleted ? _animation.value : dragHeight,
-              isDragging,
-              widget.additionalRadius,
+          return Transform.translate(
+            offset: Offset(circleOffset, 0),
+            child: ClipOval(
+              clipper: _MyCircleClipper(
+                screenSize,
+                isCompleted ? _animation.value : dragHeight,
+                isDragging,
+                widget.additionalRadius,
+                onChanged: (width, height) {
+                  if (screenSize.width > width) {
+                    canMoveCircle = true;
+                  } else {
+                    canMoveCircle = false;
+                  }
+                },
+              ),
+              child: child,
             ),
-            child: child,
           );
         },
         child: widget.child,
@@ -90,13 +123,15 @@ class _MyCircleClipper extends CustomClipper<Rect> {
   final double dragHeight;
   final bool isDragging;
   final double additionalRadius;
+  final Function(double width, double height) onChanged;
 
   _MyCircleClipper(
     this.screenSize,
     this.dragHeight,
     this.isDragging,
-    this.additionalRadius,
-  );
+    this.additionalRadius, {
+    this.onChanged,
+  });
 
   @override
   Rect getClip(Size size) {
@@ -114,6 +149,11 @@ class _MyCircleClipper extends CustomClipper<Rect> {
       width: width,
       height: height,
     );
+
+    if (onChanged != null) {
+      onChanged(width, height);
+    }
+
     return rect;
   }
 
