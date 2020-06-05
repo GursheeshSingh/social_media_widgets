@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
 //TODO: Make additional radius compatible of screen size
-//TODO: Add to only close screen when drag ends --ADDED
-//TODO: Add option to close after drags ends or when less than dismiss height --ADDED
-//TODO: If last drag action increased height, then goes back --ADDED
-//TODO: If last drag action decreased height, close screen --ADDED
+//TODO: Add API docs
+//TODO: After circles turns to less than width of the screen- Can also move down
 class SnapchatDismiss extends StatefulWidget {
   final Widget child;
   final double dismissHeight;
