@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 
 //TODO: Make additional radius compatible of screen size
-//TODO: Add option to only close screen when drag ends
-//TODO: If last drag action increased height, then goes back
-//TODO: If last drag action decreased height, close screen
+//TODO: Add to only close screen when drag ends --ADDED
+//TODO: Add option to close after drags ends or when less than dismiss height --ADDED
+//TODO: If last drag action increased height, then goes back --ADDED
+//TODO: If last drag action decreased height, close screen --ADDED
 class SnapchatDismiss extends StatefulWidget {
   final Widget child;
   final double dismissHeight;
   final double additionalRadius;
+  final bool closeAfterDragEnds;
 
   SnapchatDismiss({
     this.child,
     this.dismissHeight = 150.0,
     this.additionalRadius = 125.0,
+    this.closeAfterDragEnds = true,
   });
 
   @override
@@ -22,7 +25,9 @@ class SnapchatDismiss extends StatefulWidget {
 class _SnapchatDismissState extends State<SnapchatDismiss>
     with TickerProviderStateMixin {
   double startPosition, dragHeight;
-  bool isDragging = false, isCompleted = false;
+  bool isDragging = false,
+      isCompleted = false,
+      greaterThanDismissHeight = false;
   AnimationController _animationController;
   Animation _animation;
 
@@ -38,6 +43,31 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
   double circleOffset = 0.0;
   bool canMoveCircle = false;
   double horizontalDrag = 0.0;
+  bool wasLastDragGrowth = false;
+
+  void _reset() {
+    circleOffset = 0.0;
+    isDragging = false;
+    isCompleted = false;
+    greaterThanDismissHeight = false;
+    wasLastDragGrowth = false;
+    dragHeight = null;
+    setState(() {});
+  }
+
+  void _complete(Size screenSize) {
+    isCompleted = true;
+    double end = screenSize.height / 2 + widget.additionalRadius / 2 - 25;
+    _animation =
+        Tween(begin: dragHeight, end: end).animate(_animationController);
+    _animationController.forward();
+
+    _animationController.addListener(() {
+      if (_animationController.isCompleted) {
+        Navigator.pop(context);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,45 +79,50 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
         startPosition = details.globalPosition.dy;
       },
       onPanUpdate: (details) {
+        if (details.delta.dy > 0) {
+          wasLastDragGrowth = false;
+        } else if (details.delta.dy < 0) {
+          wasLastDragGrowth = true;
+        }
+
         if (details.delta.dy != 0) {
           dragHeight = details.globalPosition.dy - startPosition;
           setState(() {});
-          if (dragHeight > widget.dismissHeight && isCompleted == false) {
-            isCompleted = true;
-
-            double end =
-                screenSize.height / 2 + widget.additionalRadius / 2 - 25;
-            _animation = Tween(begin: widget.dismissHeight, end: end)
-                .animate(_animationController);
-            _animationController.forward();
-
-            _animationController.addListener(() {
-              if (_animationController.isCompleted) {
-                Navigator.pop(context);
-              }
-            });
+          greaterThanDismissHeight = dragHeight > widget.dismissHeight;
+          if (greaterThanDismissHeight &&
+              widget.closeAfterDragEnds == false &&
+              isCompleted == false) {
+            _complete(screenSize);
+            return;
           }
         }
 
         if (details.delta.dx != 0) {
           if (canMoveCircle) {
             circleOffset = circleOffset + details.delta.dx;
-            setState(() {});
           } else {
             if (circleOffset != 0) {
               circleOffset = 0.0;
-              setState(() {});
             }
           }
+          setState(() {});
         }
       },
       onPanEnd: (details) {
-        if (isCompleted == false) {
-          circleOffset = 0.0;
-          isDragging = false;
-          dragHeight = null;
-          setState(() {});
+        if (isCompleted) {
+          return;
         }
+        if (greaterThanDismissHeight) {
+          if (wasLastDragGrowth) {
+            _reset();
+            return;
+          }
+
+          _complete(screenSize);
+          return;
+        }
+
+        _reset();
       },
       child: AnimatedBuilder(
         animation: _animation,
@@ -150,9 +185,7 @@ class _MyCircleClipper extends CustomClipper<Rect> {
       height: height,
     );
 
-    if (onChanged != null) {
-      onChanged(width, height);
-    }
+    onChanged?.call(width, height);
 
     return rect;
   }

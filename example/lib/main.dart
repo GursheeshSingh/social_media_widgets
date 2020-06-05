@@ -101,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       MaterialPageRoute(
         builder: (context) => SnapchatDismiss(
+          closeAfterDragEnds: true,
           child: Screen('Screen', Colors.redAccent),
         ),
       ),
@@ -112,8 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
       context,
       PageRouteBuilder(
         opaque: false,
-        pageBuilder: (_, __, ___) =>
-            SnapchatDismiss(child: Screen('Screen', Colors.redAccent)),
+        pageBuilder: (_, __, ___) => SnapchatDismiss(
+          child: Screen('Screen', Colors.redAccent),
+        ),
       ),
     );
   }
