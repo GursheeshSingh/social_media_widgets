@@ -9,6 +9,19 @@ class Screen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appbar: AppBar(
+        backgroundColor: color,
+        elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          )
+        ],
+        leading: Container(),
+      ),
       body: Container(
         color: color,
         child: Center(
