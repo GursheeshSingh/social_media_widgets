@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 //TODO: Make additional radius compatible of screen size
 //TODO: Add API docs
 //TODO: After circles turns to less than width of the screen- Can also move down
+//TODO: If behind screen is visible, lower its opacity and increase opacity as circle radius decreases --ADDED
 class SnapchatDismiss extends StatefulWidget {
   final Widget child;
   final double dismissHeight;
@@ -122,30 +123,39 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
 
         _reset();
       },
-      child: AnimatedBuilder(
-        animation: _animation,
-        builder: (context, child) {
-          return Transform.translate(
-            offset: Offset(circleOffset, 0),
-            child: ClipOval(
-              clipper: _MyCircleClipper(
-                screenSize,
-                isCompleted ? _animation.value : dragHeight,
-                isDragging,
-                widget.additionalRadius,
-                onChanged: (width, height) {
-                  if (screenSize.width > width) {
-                    canMoveCircle = true;
-                  } else {
-                    canMoveCircle = false;
-                  }
-                },
-              ),
-              child: child,
-            ),
-          );
-        },
-        child: widget.child,
+      child: Stack(
+        children: <Widget>[
+          Container(
+            color: Colors.black.withOpacity(
+                (1.0 - (0.8 / (screenSize.height)) * (dragHeight ?? 1.0) * 1.5)
+                    .clamp(0.0, 1.0)),
+          ),
+          AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) {
+              return Transform.translate(
+                offset: Offset(circleOffset, 0),
+                child: ClipOval(
+                  clipper: _MyCircleClipper(
+                    screenSize,
+                    isCompleted ? _animation.value : dragHeight,
+                    isDragging,
+                    widget.additionalRadius,
+                    onChanged: (width, height) {
+                      if (screenSize.width > width) {
+                        canMoveCircle = true;
+                      } else {
+                        canMoveCircle = false;
+                      }
+                    },
+                  ),
+                  child: child,
+                ),
+              );
+            },
+            child: widget.child,
+          ),
+        ],
       ),
     );
   }
