@@ -2,14 +2,17 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:social_media_widgets/insta_swipe_controller.dart';
 
 class InstagramStorySwipe extends StatefulWidget {
   final List<Widget> children;
   final int initialPage;
+  final InstagramSwipeController instagramSwipeController;
 
   InstagramStorySwipe({
     @required this.children,
     this.initialPage = 0,
+    this.instagramSwipeController,
   }) {
     assert(children != null);
     assert(children.length != 0);
@@ -23,6 +26,8 @@ class _InstagramStorySwipeState extends State<InstagramStorySwipe> {
   PageController _pageController;
   double currentPageValue = 0.0;
 
+//  Timer _timer;
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +38,26 @@ class _InstagramStorySwipeState extends State<InstagramStorySwipe> {
         currentPageValue = _pageController.page;
       });
     });
+
+    if (widget.instagramSwipeController != null) {
+      widget.instagramSwipeController.pageController = _pageController;
+    }
+
+//    _timer = Timer.periodic(Duration(seconds: 5), (timer) {
+//      if (_pageController.page < widget.children.length - 1) {
+//        _pageController.nextPage(
+//            duration: Duration(milliseconds: 500), curve: Curves.linear);
+//      } else {
+//        timer.cancel();
+//      }
+//    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _pageController.dispose();
   }
 
   @override

@@ -38,61 +38,81 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 30),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                onPressed: _onSnapchatDismissibleWithBlackButtonPressed,
-                child: Text('Basic Snapchat dismissible'),
-              ),
-              SizedBox(height: 16),
-              RaisedButton(
-                onPressed: _onSnapchatDismissibleWithPreviousScreenPressed,
-                child: Text(
-                  'Snapchat dismissible with previous screen as background',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 16),
-              RaisedButton(
-                onPressed: _onSnapchatDismissibleWithCustomHeightPressed,
-                child: Text(
-                  'Snapchat dismissible with increased custom height',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 16),
-              RaisedButton(
-                onPressed: _onInstagramStorySwipeClicked,
-                child: Text(
-                  'Instagram story swipe',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 16),
-              RaisedButton(
-                onPressed:
-                    _onInstagramStorySwipeWithInitialPageSpecifiedClicked,
-                child: Text(
-                  'Instagram story swipe with initial page as screen 2',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(height: 16),
-              RaisedButton(
-                onPressed: _onInstagramAndStorySwipeCombined,
-                child: Text(
-                  'Instagram story swipe and snapchat dismiss combined',
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: LinearGradient(
+              colors: [Color(0xFF8134AF), Color(0xFFDD2A7B), Color(0xFFFEDA77)],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: [0.3, 0.6, 0.9],
+            ),
+          ),
+          child: CircleAvatar(
+            radius: 50,
+            backgroundImage: NetworkImage(
+              'https://pbs.twimg.com/profile_images/1209034437708533760/_xoOpF_F_400x400.jpg',
+            ),
           ),
         ),
       ),
+//      body: Container(
+//        margin: EdgeInsets.symmetric(horizontal: 30),
+//        child: Center(
+//          child: Column(
+//            mainAxisAlignment: MainAxisAlignment.center,
+//            children: <Widget>[
+//              RaisedButton(
+//                onPressed: _onSnapchatDismissibleWithBlackButtonPressed,
+//                child: Text('Basic Snapchat dismissible'),
+//              ),
+//              SizedBox(height: 16),
+//              RaisedButton(
+//                onPressed: _onSnapchatDismissibleWithPreviousScreenPressed,
+//                child: Text(
+//                  'Snapchat dismissible with previous screen as background',
+//                  textAlign: TextAlign.center,
+//                ),
+//              ),
+//              SizedBox(height: 16),
+//              RaisedButton(
+//                onPressed: _onSnapchatDismissibleWithCustomHeightPressed,
+//                child: Text(
+//                  'Snapchat dismissible with increased custom height',
+//                  textAlign: TextAlign.center,
+//                ),
+//              ),
+//              SizedBox(height: 16),
+//              RaisedButton(
+//                onPressed: _onInstagramStorySwipeClicked,
+//                child: Text(
+//                  'Instagram story swipe',
+//                  textAlign: TextAlign.center,
+//                ),
+//              ),
+//              SizedBox(height: 16),
+//              RaisedButton(
+//                onPressed:
+//                    _onInstagramStorySwipeWithInitialPageSpecifiedClicked,
+//                child: Text(
+//                  'Instagram story swipe with initial page as screen 2',
+//                  textAlign: TextAlign.center,
+//                ),
+//              ),
+//              SizedBox(height: 16),
+//              RaisedButton(
+//                onPressed: _onInstagramAndStorySwipeCombined,
+//                child: Text(
+//                  'Instagram story swipe and snapchat dismiss combined',
+//                  textAlign: TextAlign.center,
+//                ),
+//              ),
+//            ],
+//          ),
+//        ),
+//      ),
     );
   }
 
