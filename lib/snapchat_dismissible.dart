@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 //TODO: After circles turns to less than width of the screen- Can also move down
 //TODO: If behind screen is visible, lower its opacity and increase opacity as circle radius decreases --ADDED
 class SnapchatDismiss extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   final double dismissHeight;
   final double additionalRadius;
   final bool closeAfterDragEnds;
@@ -23,12 +23,12 @@ class SnapchatDismiss extends StatefulWidget {
 
 class _SnapchatDismissState extends State<SnapchatDismiss>
     with TickerProviderStateMixin {
-  double startPosition, dragHeight;
+  double? startPosition, dragHeight;
   bool isDragging = false,
       isCompleted = false,
       greaterThanDismissHeight = false;
-  AnimationController _animationController;
-  Animation _animation;
+  late AnimationController _animationController;
+  late Animation _animation;
 
   @override
   void initState() {
@@ -85,9 +85,9 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
         }
 
         if (details.delta.dy != 0) {
-          dragHeight = details.globalPosition.dy - startPosition;
+          dragHeight = details.globalPosition.dy - startPosition!;
           setState(() {});
-          greaterThanDismissHeight = dragHeight > widget.dismissHeight;
+          greaterThanDismissHeight = dragHeight! > widget.dismissHeight;
           if (greaterThanDismissHeight &&
               widget.closeAfterDragEnds == false &&
               isCompleted == false) {
@@ -163,10 +163,10 @@ class _SnapchatDismissState extends State<SnapchatDismiss>
 
 class _MyCircleClipper extends CustomClipper<Rect> {
   final Size screenSize;
-  final double dragHeight;
+  final double? dragHeight;
   final bool isDragging;
   final double additionalRadius;
-  final Function(double width, double height) onChanged;
+  final Function(double width, double height)? onChanged;
 
   _MyCircleClipper(
     this.screenSize,
@@ -179,9 +179,9 @@ class _MyCircleClipper extends CustomClipper<Rect> {
   @override
   Rect getClip(Size size) {
     double width, height;
-    if (isDragging != null && isDragging && dragHeight != null) {
-      width = screenSize.height + additionalRadius - dragHeight * 2;
-      height = screenSize.height + additionalRadius - dragHeight * 2;
+    if (isDragging && dragHeight != null) {
+      width = screenSize.height + additionalRadius - dragHeight! * 2;
+      height = screenSize.height + additionalRadius - dragHeight! * 2;
     } else {
       width = screenSize.height + additionalRadius;
       height = screenSize.height + additionalRadius;
